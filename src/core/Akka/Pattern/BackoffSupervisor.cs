@@ -23,7 +23,7 @@ namespace Akka.Pattern
         /// <summary>
         /// Request <see cref="BackoffSupervisor"/> with this message to receive <see cref="CurrentChild"/> response with current child.
         /// </summary>
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         [Serializable]
 #endif
         public sealed class GetCurrentChild
@@ -31,7 +31,7 @@ namespace Akka.Pattern
             public static readonly GetCurrentChild Instance = new GetCurrentChild();
             private GetCurrentChild() { }
         }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         [Serializable]
 #endif
         public sealed class CurrentChild
@@ -43,7 +43,7 @@ namespace Akka.Pattern
                 Ref = @ref;
             }
         }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         [Serializable]
 #endif
         public sealed class StartChild
@@ -51,7 +51,7 @@ namespace Akka.Pattern
             public static readonly StartChild Instance = new StartChild();
             private StartChild() { }
         }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         [Serializable]
 #endif
         public sealed class ResetRestartCount

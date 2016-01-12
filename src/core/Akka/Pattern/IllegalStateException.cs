@@ -22,7 +22,7 @@ namespace Akka.Pattern
         public IllegalStateException(string message) : base(message)
         {
         }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         /// <summary>
         /// Initializes a new instance of the <see cref="IllegalStateException"/> class.
         /// </summary>

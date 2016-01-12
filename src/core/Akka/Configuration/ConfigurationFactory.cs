@@ -6,7 +6,7 @@
 //-----------------------------------------------------------------------
 
 using System;
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
 using System.Configuration;
 #endif
 using System.Diagnostics;
@@ -57,7 +57,7 @@ namespace Akka.Configuration
             return ParseString(hocon, null);
         }
 
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         /// <summary>
         /// Loads a configuration defined in the current application's
         /// configuration file, e.g. app.config or web.config
@@ -90,7 +90,7 @@ namespace Akka.Configuration
         /// <returns>The configuration defined in the current executing assembly.</returns>
         internal static Config FromResource(string resourceName)
         {
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
             Assembly assembly = Assembly.GetExecutingAssembly();
 #else
             Assembly assembly = typeof(ConfigurationFactory).GetTypeInfo().Assembly;

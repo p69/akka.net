@@ -4,7 +4,7 @@
 //     Copyright (C) 2013-2015 Akka.NET project <https://github.com/akkadotnet/akka.net>
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if !NETFX_CORE
 using System;
 
 namespace Akka.Util
@@ -71,4 +71,5 @@ namespace Akka.Util
         }
     }
 }
+#endif
 

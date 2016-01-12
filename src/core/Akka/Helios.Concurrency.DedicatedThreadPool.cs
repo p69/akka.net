@@ -30,7 +30,7 @@ namespace Helios.Concurrency
         /// Background threads are the default thread type
         /// </summary>
         public const ThreadType DefaultThreadType = ThreadType.Background;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
         public DedicatedThreadPoolSettings(int numThreads, string name = null, TimeSpan? deadlockTimeout = null)
             : this(numThreads, DefaultThreadType, name, deadlockTimeout)
         { }
@@ -74,7 +74,7 @@ namespace Helios.Concurrency
         /// </summary>
         public ThreadType ThreadType { get; private set; }
 
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         /// <summary>
         /// Apartment state for threads to run in this thread pool
         /// </summary>
@@ -451,7 +451,7 @@ namespace Helios.Concurrency
                 {
                     IsBackground = _pool.Settings.ThreadType == ThreadType.Background
                 };
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
                 if (_pool.Settings.ApartmentState != ApartmentState.Unknown)
                     _thread.SetApartmentState(_pool.Settings.ApartmentState);
 #endif
@@ -472,7 +472,7 @@ namespace Helios.Concurrency
             internal void ForceTermination()
             {
                 //TODO: abort is no guarantee for thread abortion
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
                 _thread.Abort();
 #endif
             }

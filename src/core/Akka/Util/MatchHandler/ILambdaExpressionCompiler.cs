@@ -19,7 +19,7 @@ namespace Akka.Tools.MatchHandler
         /// <param name="expression">The expression to compile</param>
         /// <returns>A delegate containing the compiled version of the lambda.</returns>
         Delegate Compile(LambdaExpression expression);
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         /// <summary>
         /// Compiles the lambda into a method definition.
         /// </summary>

@@ -46,7 +46,7 @@ namespace Akka.Dispatch
     /// </summary>
     public class ThreadPoolDispatcher : MessageDispatcher
     {
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         private static readonly bool _isFullTrusted = AppDomain.CurrentDomain.IsFullyTrusted;
 #endif
 
@@ -64,7 +64,7 @@ namespace Akka.Dispatch
         public override void Schedule(Action run)
         {
             var wc = new WaitCallback(_ => run());
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
             // we use unsafe version if current application domain is FullTrusted
             if (_isFullTrusted)
                 ThreadPool.UnsafeQueueUserWorkItem(wc, null);

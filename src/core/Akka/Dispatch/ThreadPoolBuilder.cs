@@ -32,7 +32,7 @@ namespace Akka.Dispatch
                 ThreadType.Foreground : ThreadType.Background;
         }
 
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         internal static ApartmentState GetApartmentState(Config cfg)
         {
             var s = cfg.GetString("apartment");

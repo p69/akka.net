@@ -25,7 +25,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
 [assembly: Guid("1a5cab08-b032-49ca-8db3-9428c5a9db14")]
 #endif
 [assembly: InternalsVisibleTo("Akka.Tests")]

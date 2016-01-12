@@ -39,7 +39,7 @@ namespace Akka.Pattern
             : base(message, cause)
         {
         }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         /// <summary>
         /// Initializes a new instance of the <see cref="OpenCircuitException"/> class.
         /// </summary>

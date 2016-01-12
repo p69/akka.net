@@ -17,7 +17,7 @@ namespace Akka.Tools.MatchHandler
         {
             return expression.Compile();
         }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         public void CompileToMethod(LambdaExpression expression, MethodBuilder method)
         {
             expression.CompileToMethod(method);

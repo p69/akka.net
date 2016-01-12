@@ -135,7 +135,7 @@ namespace Akka.Tools.MatchHandler
             return partialAction;
         }
 
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         public void BuildToMethod(TypeBuilder typeBuilder, string methodName, MethodAttributes attributes = MethodAttributes.Public | MethodAttributes.Static)
         {
             _compiler.CompileToMethod(_typeHandlers, _arguments, new MatchBuilderSignature(_signature), typeBuilder, methodName, methodAttributes: attributes);

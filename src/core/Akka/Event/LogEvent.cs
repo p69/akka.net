@@ -22,7 +22,9 @@ namespace Akka.Event
         protected LogEvent()
         {
             Timestamp = DateTime.UtcNow;
+#if !NETFX_CORE
             Thread = Thread.CurrentThread;
+#endif
         }
 
         /// <summary>
@@ -30,13 +32,13 @@ namespace Akka.Event
         /// </summary>
         /// <value>The timestamp.</value>
         public DateTime Timestamp { get; private set; }
-
+#if !NETFX_CORE
         /// <summary>
         /// Gets the thread of this LogEvent.
         /// </summary>
         /// <value>The thread.</value>
         public Thread Thread { get; private set; }
-
+#endif
         /// <summary>
         /// Gets the log source of this LogEvent.
         /// </summary>
@@ -67,7 +69,15 @@ namespace Akka.Event
         /// <returns>A <see cref="System.String" /> that represents this LogEvent.</returns>
         public override string ToString()
         {
-            return string.Format("[{0}][{1}][Thread {2}][{3}] {4}", LogLevel().ToString().Replace("Level", "").ToUpperInvariant(), Timestamp, Thread.ManagedThreadId.ToString().PadLeft(4, '0'), LogSource, Message);
+            return string.Format("[{0}][{1}][Thread {2}][{3}] {4}",
+                LogLevel().ToString().Replace("Level", "").ToUpperInvariant(),
+                Timestamp,
+#if !NETFX_CORE
+                Thread.ManagedThreadId.ToString().PadLeft(4, '0'),
+#endif
+                "No thread",
+                LogSource,
+                Message);
         }
     }
 }

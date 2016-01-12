@@ -21,11 +21,13 @@ namespace Akka.Event
 
         static StandardOutLogger()
         {
+#if !NETFX_CORE
             DebugColor = ConsoleColor.Gray;
             InfoColor = ConsoleColor.White;
             WarningColor = ConsoleColor.Yellow;
             ErrorColor = ConsoleColor.Red;
             UseColors = true;
+#endif
         }
         
         /// <summary>
@@ -63,10 +65,15 @@ namespace Akka.Event
             }
             else
             {
+#if !NETFX_CORE
                 Console.WriteLine(message);
+
+#else
+                System.Diagnostics.Debug.WriteLine(message);
+#endif
             }
         }
-        
+#if !NETFX_CORE
         /// <summary>
         /// Gets or Sets the color of Debug events.
         /// </summary>
@@ -91,13 +98,14 @@ namespace Akka.Event
         /// Gets or Sets whether or not to use colors when printing events.
         /// </summary>
         public static bool UseColors { get; set; }
-
+#endif
         /// <summary>
         /// Prints the LogEvent using the StandardOutWriter.
         /// </summary>
         /// <param name="logEvent"></param>
         public static void PrintLogEvent(LogEvent logEvent)
         {
+#if !NETFX_CORE
             ConsoleColor? color = null;
             
             if(UseColors)
@@ -121,6 +129,9 @@ namespace Akka.Event
             }
 
             StandardOutWriter.WriteLine(logEvent.ToString(), color);
+#else
+            System.Diagnostics.Debug.WriteLine(logEvent.ToString());
+#endif
         }
     }
 }

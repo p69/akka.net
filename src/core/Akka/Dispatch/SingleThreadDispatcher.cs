@@ -39,7 +39,7 @@ namespace Akka.Dispatch
                         ThreadType.Background.ToString())),
                     config.GetString("id"),
                     DedicatedThreadPoolConfigHelpers.GetSafeDeadlockTimeout(dtp)
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
                     , DedicatedThreadPoolConfigHelpers.GetApartmentState(dtp)); 
 #else
                     );

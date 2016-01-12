@@ -32,7 +32,7 @@ namespace Akka.Configuration
         public ConfigurationException(string message, Exception exception): base(message, exception)
         {
         }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigurationException"/> class.
         /// </summary>

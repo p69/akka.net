@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -37,7 +37,7 @@
   <ItemGroup>
     <None Include="Configuration\Pigeon.conf" />
     <None Include="packages.config" />
-    <None Include="project.portable.json" />
+    <None Include="project.json" />
     <None Include="Util\MatchHandler\README.md" />
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>

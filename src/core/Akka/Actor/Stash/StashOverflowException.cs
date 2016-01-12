@@ -21,7 +21,7 @@ namespace Akka.Actor
         /// <param name="message">The message that describes the error.</param>
         /// <param name="cause">The exception that is the cause of the current exception.</param>
         public StashOverflowException(string message, Exception cause = null) : base(message, cause) { }
-#if !DNXCORE50
+#if !(DNXCORE50 || NETFX_CORE)
         /// <summary>
         /// Initializes a new instance of the <see cref="StashOverflowException"/> class.
         /// </summary>
