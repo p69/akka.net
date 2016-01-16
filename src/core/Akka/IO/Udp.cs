@@ -279,7 +279,9 @@ namespace Akka.IO
 
                 public override void BeforeDatagramBind(Socket s)
                 {
+#if !NETFX_CORE
                     s.EnableBroadcast = On;
+#endif
                 }
             }
         }

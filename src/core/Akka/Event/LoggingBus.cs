@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
 using System.Reflection;
 #endif
 using System.Threading;

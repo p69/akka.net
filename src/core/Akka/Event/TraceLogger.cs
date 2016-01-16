@@ -4,7 +4,7 @@
 //     Copyright (C) 2013-2015 Akka.NET project <https://github.com/akkadotnet/akka.net>
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if !NETFX_CORE
 using System.Diagnostics;
 using Akka.Actor;
 
@@ -33,3 +33,4 @@ namespace Akka.Event
         }
     }
 }
+#endif

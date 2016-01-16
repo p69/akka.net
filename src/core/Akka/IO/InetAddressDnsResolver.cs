@@ -36,9 +36,14 @@ namespace Akka.IO
                 {
                     try
                     {
+#if !NETFX_CORE
                         //TODO: IP6
                         //TODO: what to do about async here?
                         answer = Dns.Resolved.Create(resolve.Name, System.Net.Dns.GetHostEntryAsync(resolve.Name).Result.AddressList.Where(x => x.AddressFamily == AddressFamily.InterNetwork));
+#else
+                        //TODO: fix it
+                        answer = Dns.Resolved.Create(resolve.Name, new[] {new IPAddress(12345)});
+#endif
                         _cache.Put(answer, _positiveTtl);
                     }
                     catch (SocketException ex)

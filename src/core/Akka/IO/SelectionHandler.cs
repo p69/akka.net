@@ -211,7 +211,9 @@ namespace Akka.IO
                 var writeable = _write.Keys.ToList();
                 try
                 {
+#if !NETFX_CORE
                     Socket.Select(readable, writeable, null, 1);
+#endif
                     foreach (var socket in readable)
                     {
                         var channel = _read[socket];

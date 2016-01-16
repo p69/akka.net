@@ -4,7 +4,7 @@
 //     Copyright (C) 2013-2015 Akka.NET project <https://github.com/akkadotnet/akka.net>
 // </copyright>
 //-----------------------------------------------------------------------
-
+#if !(DNXCORE50 || NETFX_CORE)
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -173,3 +173,4 @@ namespace Akka.Actor
         public Action Action { get; set; }
     }
 }
+#endif

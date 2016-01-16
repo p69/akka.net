@@ -418,7 +418,11 @@ namespace Helios.Concurrency
             private readonly int _workerNumber;
 
             private BlockingCollection<Action> _workQueue;
+#if DNXCORE50 || NETFX_CORE
+            private CancellationToken _cancelationToken;
+#else
             private readonly Thread _thread;
+#endif
 
             public PoolWorker(WorkerQueue work, DedicatedThreadPool pool, bool errorRecovery, int workerNumber)
             {
@@ -427,7 +431,33 @@ namespace Helios.Concurrency
                 _workerNumber = workerNumber;
                 _workQueue = _work.WorkQueue;
                 _work.ReplacePoolWorker(this, errorRecovery);
-                
+
+#if DNXCORE50 || NETFX_CORE
+                _cancelationToken = new CancellationToken();
+                Task.Factory.StartNew(
+                    () =>
+                    {
+                        CurrentWorker = this;
+
+                        foreach (var action in _workQueue.GetConsumingEnumerable())
+                        {
+                            try
+                            {
+                                //bail if shutdown has been requested
+                                if (_pool.ShutdownRequested) return;
+                                action();
+                            }
+                            catch (Exception)
+                            {
+                                Failover(true);
+                                return;
+                            }
+                        }
+                    },
+                    _cancelationToken,
+                    TaskCreationOptions.PreferFairness,
+                    TaskScheduler.Default);
+#else
                 _thread = new Thread(() =>
                 {
                     Thread.CurrentThread.Name = string.Format("{0}_{1}", pool.Settings.Name, _workerNumber);
@@ -451,12 +481,10 @@ namespace Helios.Concurrency
                 {
                     IsBackground = _pool.Settings.ThreadType == ThreadType.Background
                 };
-#if !(DNXCORE50 || NETFX_CORE)
                 if (_pool.Settings.ApartmentState != ApartmentState.Unknown)
                     _thread.SetApartmentState(_pool.Settings.ApartmentState);
-#endif
-
                 _thread.Start();
+#endif
             }
 
             private void Failover(bool errorRecovery = false)
@@ -471,8 +499,9 @@ namespace Helios.Concurrency
 
             internal void ForceTermination()
             {
-                //TODO: abort is no guarantee for thread abortion
-#if !(DNXCORE50 || NETFX_CORE)
+#if DNXCORE50 || NETFX_CORE
+                _cancelationToken.ThrowIfCancellationRequested();
+#else
                 _thread.Abort();
 #endif
             }

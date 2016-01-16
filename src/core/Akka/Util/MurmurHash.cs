@@ -247,7 +247,7 @@ namespace Akka.Util
                 throw new ArgumentException("Not enough bits to make a byte!");
             }
             var bytes = new byte[(arr.Length - 1) / 8 + 1];
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
             int bitIndex = 0;
             int byteIndex = 0;
             for (int i = 0; i < arr.Length; i++)

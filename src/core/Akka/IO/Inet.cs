@@ -53,10 +53,11 @@ namespace Akka.IO
                 {
                     _size = size;
                 }
-
+#if !NETFX_CORE
                 public override void BeforeServerSocketBind(Socket ss)
                 {
                     ss.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveBuffer, _size);
+
                 }
                 public override void BeforeDatagramBind(Socket ds)
                 {
@@ -66,6 +67,7 @@ namespace Akka.IO
                 {
                     s.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveBuffer, _size);
                 }
+#endif
             }
 
             public class ReuseAddress : SocketOption
@@ -76,7 +78,7 @@ namespace Akka.IO
                 {
                     _on = @on;
                 }
-
+#if !NETFX_CORE
                 public override void BeforeServerSocketBind(Socket ss)
                 {
                     ss.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, _on);
@@ -89,6 +91,7 @@ namespace Akka.IO
                 {
                     s.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, _on);
                 }
+#endif
             }
 
             public class SendBufferSize : SocketOption
@@ -99,11 +102,12 @@ namespace Akka.IO
                 {
                     _size = size;
                 }
-
+#if !NETFX_CORE
                 public override void AfterConnect(Socket s)
                 {
                     s.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.SendBuffer, _size);
                 }
+#endif
             }
 
             public class TrafficClass : SocketOption

@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
 using System.Reflection;
 #endif
 using Akka.Dispatch;
@@ -704,7 +704,7 @@ namespace Akka.Actor
         protected override Props Copy()
         {
             Props initialCopy = base.Copy();
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
             //TODO: change this
             var invokerCopy = invoker;
 #else

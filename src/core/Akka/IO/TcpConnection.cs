@@ -531,6 +531,7 @@ namespace Akka.IO
 
         private void Abort()
         {
+#if !NETFX_CORE
             try
             {
                 Channel.Socket.LingerState = new LingerOption(true, 0);  // causes the following close() to send TCP RST
@@ -539,6 +540,7 @@ namespace Akka.IO
             {
                 if (_tcp.Settings.TraceLogging) _log.Debug("setSoLinger(true, 0) failed with [{0}]", e);
             }
+#endif
             Channel.Close();
         }
 

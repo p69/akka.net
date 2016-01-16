@@ -96,7 +96,7 @@ namespace Akka.Actor
         /// <returns>ActorSystem.</returns>
         public static ActorSystem Create(string name)
         {
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
             return CreateAndStartSystem(name, new Config());
 #else
             return CreateAndStartSystem(name,ConfigurationFactory.Load());

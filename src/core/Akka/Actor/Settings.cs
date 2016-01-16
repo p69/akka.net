@@ -7,7 +7,7 @@
 
 using System;
 using System.Collections.Generic;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
 using System.Reflection;
 #endif
 using Akka.Configuration;

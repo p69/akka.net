@@ -31,13 +31,13 @@ namespace Akka.Dispatch
         public static readonly string StateKey = "akka.state";
         private const string Faulted = "faulted";
         private static readonly object Outer = new object();
-#if DNXCORE50
-        private readonly static AsyncLocal<AmbientState> ambientStateAsyncLocal = new AsyncLocal<AmbientState>();
+#if DNXCORE50 || NETFX_CORE
+        private static readonly AsyncLocal<AmbientState> ambientStateAsyncLocal = new AsyncLocal<AmbientState>();
 #endif
 
         public static void SetCurrentState(IActorRef self, IActorRef sender, object message)
         {
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
             ambientStateAsyncLocal.Value = new AmbientState
             {
                 Sender = sender,
@@ -61,7 +61,7 @@ namespace Akka.Dispatch
 
         protected override void QueueTask(Task task)
         {
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
             var s = ambientStateAsyncLocal.Value;
 #else
             var s = CallContext.LogicalGetData(StateKey) as AmbientState;
@@ -74,7 +74,7 @@ namespace Akka.Dispatch
 
             //we get here if the task needs to be marshalled back to the mailbox
             //e.g. if previous task was an IO completion
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
             s = ambientStateAsyncLocal.Value;
 #else
             s = CallContext.LogicalGetData(StateKey) as AmbientState;
@@ -94,7 +94,7 @@ namespace Akka.Dispatch
         {
             if (taskWasPreviouslyQueued)
                 return false;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
             var s = ambientStateAsyncLocal.Value;
 #else
             var s = CallContext.LogicalGetData(StateKey) as AmbientState;

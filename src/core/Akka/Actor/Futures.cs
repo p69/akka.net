@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -370,7 +371,7 @@ namespace Akka.Actor
                     else
                     {
                         //TODO: find a way to get access to logger?
-                        Console.WriteLine("BUG: illegal Watch({0},{1}) for {2}", watch.Watchee, watch.Watcher, this);
+                        Debug.WriteLine("BUG: illegal Watch({0},{1}) for {2}", watch.Watchee, watch.Watcher, this);
                     }
                 }
             }
@@ -378,7 +379,7 @@ namespace Akka.Actor
             {
                 var unwatch = message as Unwatch;
                 if(unwatch.Watchee == this && unwatch.Watcher != this) RemoveWatcher(unwatch.Watcher);
-                else Console.WriteLine("BUG: illegal Unwatch({0},{1}) for {2}", unwatch.Watchee, unwatch.Watcher, this);
+                else Debug.WriteLine("BUG: illegal Unwatch({0},{1}) for {2}", unwatch.Watchee, unwatch.Watcher, this);
             }
             else { }
         }

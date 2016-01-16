@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
 using System.Reflection;
 #endif
 
@@ -62,7 +62,7 @@ namespace Akka.Tools.MatchHandler
                 }
                 else
                 {
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
                     if (handlesType.GetTypeInfo().IsValueType)
 #else
                     if (handlesType.IsValueType)

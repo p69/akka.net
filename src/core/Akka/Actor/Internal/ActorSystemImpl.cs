@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
 using System.Reflection;
 #endif
 using System.Text.RegularExpressions;
@@ -41,7 +41,7 @@ namespace Akka.Actor.Internal
         private IScheduler _scheduler;
         private ActorProducerPipelineResolver _actorProducerPipelineResolver;
 
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
         public ActorSystemImpl(string name)
             : this(name, new Config())
         {
@@ -152,8 +152,8 @@ namespace Akka.Actor.Internal
             foreach(var extensionFqn in _settings.Config.GetStringList("akka.extensions"))
             {
                 var extensionType = Type.GetType(extensionFqn);
-#if DNXCORE50
-                if(extensionType == null || !typeof(IExtensionId).IsAssignableFrom(extensionType) || extensionType.GetTypeInfo().IsAbstract || !extensionType.GetTypeInfo().IsClass)
+#if DNXCORE50 || NETFX_CORE
+                if (extensionType == null || !typeof(IExtensionId).IsAssignableFrom(extensionType) || extensionType.GetTypeInfo().IsAbstract || !extensionType.GetTypeInfo().IsClass)
 #else
                     
                 if(extensionType == null || !typeof(IExtensionId).IsAssignableFrom(extensionType) || extensionType.IsAbstract || !extensionType.IsClass)

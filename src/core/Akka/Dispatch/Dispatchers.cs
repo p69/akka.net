@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Akka.Actor;
@@ -63,14 +64,18 @@ namespace Akka.Dispatch
         /// <param name="run">The run.</param>
         public override void Schedule(Action run)
         {
+#if NETFX_CORE
+            Task.Run(run);
+#else
             var wc = new WaitCallback(_ => run());
-#if !(DNXCORE50 || NETFX_CORE)
+#if !DNXCORE50
             // we use unsafe version if current application domain is FullTrusted
             if (_isFullTrusted)
                 ThreadPool.UnsafeQueueUserWorkItem(wc, null);
             else
 #endif
                 ThreadPool.QueueUserWorkItem(wc, null);
+#endif
         }
     }
 

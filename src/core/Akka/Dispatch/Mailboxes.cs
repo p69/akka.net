@@ -8,7 +8,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
 using System.Reflection;
 #endif
 using Akka.Actor;
@@ -81,9 +81,9 @@ namespace Akka.Dispatch
 
             var actortype = props.Type;
             var interfaces = actortype.GetInterfaces()
-#if DNXCORE50
+#if DNXCORE50 || NETFX_CORE
                 .Where(i => i.GetTypeInfo().IsGenericType)
-# else
+#else
                 .Where(i => i.IsGenericType)
 #endif
                 .Where(i => i.GetGenericTypeDefinition() == typeof (IRequiresMessageQueue<>))
