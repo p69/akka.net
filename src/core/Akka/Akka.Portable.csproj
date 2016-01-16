@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="Configuration\Pigeon.conf" />
+    <EmbeddedResource Include="Configuration\Pigeon.conf" />
     <None Include="packages.config" />
     <None Include="project.json" />
     <None Include="Util\MatchHandler\README.md" />

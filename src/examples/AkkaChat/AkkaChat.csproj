@@ -95,12 +95,22 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors\AkkaChat.cs" />
+    <Compile Include="Actors\Chat.cs" />
+    <Compile Include="Actors\ChatEvent.cs" />
+    <Compile Include="Actors\ChatEvents.cs" />
+    <Compile Include="Actors\Chats.cs" />
+    <Compile Include="Actors\TextChatEvent.cs" />
+    <Compile Include="Actors\User.cs" />
+    <Compile Include="Actors\Users.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bootstrapping\AppRoot.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Messages\StartAppMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -135,6 +145,7 @@
       <Name>Akka.Portable</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

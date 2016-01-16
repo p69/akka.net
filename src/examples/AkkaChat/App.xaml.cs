@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using AkkaChat.Bootstrapping;
 
 namespace AkkaChat
 {
@@ -79,6 +80,7 @@ namespace AkkaChat
             }
             // Ensure the current window is active
             Window.Current.Activate();
+            AppRoot.Start();
         }
 
         /// <summary>

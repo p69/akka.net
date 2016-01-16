@@ -4,11 +4,12 @@
 //     Copyright (C) 2013-2015 Akka.NET project <https://github.com/akkadotnet/akka.net>
 // </copyright>
 //-----------------------------------------------------------------------
-#if !(DNXCORE50 || NETFX_CORE)
+
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Threading;
+using System.Threading.Tasks;
 using Akka.Event;
 
 namespace Akka.Actor
@@ -26,53 +27,59 @@ namespace Akka.Actor
         {
             _log = Logging.GetLogger(system, this);
             var precision = system.Settings.Config.GetTimeSpan("akka.scheduler.tick-duration");
-            var thread = new Thread(_ =>
-            {
-                var allWork = new List<ScheduledWork>();
-                while (true)
+            Task.Factory.StartNew(
+                async () =>
                 {
-                    if (system.TerminationTask.IsCompleted)
+                    var allWork = new List<ScheduledWork>();
+                    while (true)
                     {
-                        return;
-                    }
+                        if (system.TerminationTask.IsCompleted)
+                        {
+                            return;
+                        }
 
-                    Thread.Sleep(precision);
-                    var now = HighResMonotonicClock.Ticks;
-                    ScheduledWork work;
-                    while(_workQueue.TryDequeue(out work))
-                    {
-                        //has work already expired?
-                        if (work.TickExpires < now)
+                        await Task.Delay(precision);
+                        var now = HighResMonotonicClock.Ticks;
+                        ScheduledWork work;
+                        while (_workQueue.TryDequeue(out work))
                         {
-                            work.Action();
-                        }
-                        else
-                        {
-                            //buffer it for later
-                            allWork.Add(work);
-                        }
-                    }
-                    //this is completely stupid, but does work.. 
-                    if (allWork.Count > 0)
-                    {
-                        var tmp = allWork;
-                        allWork = new List<ScheduledWork>();
-                        foreach (var bufferedWork in tmp)
-                        {
-                            if (bufferedWork.TickExpires < now)
+                            //has work already expired?
+                            if (work.TickExpires < now)
                             {
-                                bufferedWork.Action();
+                                work.Action();
                             }
                             else
                             {
-                                allWork.Add(bufferedWork);
+                                //buffer it for later
+                                allWork.Add(work);
+                            }
+                        }
+                        //this is completely stupid, but does work.. 
+                        if (allWork.Count > 0)
+                        {
+                            var tmp = allWork;
+                            allWork = new List<ScheduledWork>();
+                            foreach (var bufferedWork in tmp)
+                            {
+                                if (bufferedWork.TickExpires < now)
+                                {
+                                    bufferedWork.Action();
+                                }
+                                else
+                                {
+                                    allWork.Add(bufferedWork);
+                                }
                             }
                         }
                     }
-                }
-            }) {IsBackground = true};
+                },
+                TaskCreationOptions.LongRunning);
+            //var thread = new Thread(_ =>
+            //{
 
-            thread.Start();
+            //}) {IsBackground = true};
+
+            //thread.Start();
         }
 
         protected override void InternalScheduleTellOnce(TimeSpan delay, ICanTell receiver, object message, IActorRef sender, ICancelable cancelable)
@@ -173,4 +180,3 @@ namespace Akka.Actor
         public Action Action { get; set; }
     }
 }
-#endif
