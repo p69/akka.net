@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
-using AkkaChat.Messages;
+using AkkaChat.ActorModel.Model;
+using AkkaChat.ViewModels;
 
 namespace AkkaChat.Bootstrapping
 {
@@ -7,9 +8,14 @@ namespace AkkaChat.Bootstrapping
     {
         public static void Start()
         {
-            var system = ActorSystem.Create("akka-chat-system");
-            var akkaChat = system.ActorOf<Actors.AkkaChat>("akka-chat");
-            akkaChat.Tell(new StartAppMessage("App is started!"));
+            System = ActorSystem.Create("akka-chat-system");
+            MainVm = new MainViewModel();
+            ChatActorRef =
+                System.ActorOf(Props.Create(() => new Chat(MainVm)).WithDispatcher(AkkaDIspatchers.UiDispatcher), "chat");
         }
+
+        public static ActorSystem System { get; private set; }
+        public static IActorRef ChatActorRef { get; private set; }
+        public static MainViewModel MainVm { get; private set; }
     }
 }

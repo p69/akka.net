@@ -80,7 +80,6 @@ namespace AkkaChat
             }
             // Ensure the current window is active
             Window.Current.Activate();
-            AppRoot.Start();
         }
 
         /// <summary>

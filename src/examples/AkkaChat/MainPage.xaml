@@ -5,9 +5,25 @@
     xmlns:local="using:AkkaChat"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:AkkaChat.Views"
+    xmlns:viewModels="using:AkkaChat.ViewModels"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <views:ChatControl Vm="{x:Bind Vm.Chat}" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Top" MinHeight="400"/>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="5">
+            <Button Content="Add user" Click="{x:Bind Vm.AddUser}"/>
+            <ListView Margin="0,5,0,0" ItemsSource="{x:Bind Vm.UserInputs}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:UserInputViewModel">
+                        <views:UserInput Vm="{x:Bind '', Mode=OneWay}" HorizontalAlignment="Stretch"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
     </Grid>
 </Page>

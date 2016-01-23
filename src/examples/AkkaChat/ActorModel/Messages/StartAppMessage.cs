@@ -1,4 +1,4 @@
-﻿namespace AkkaChat.Messages
+﻿namespace AkkaChat.ActorModel.Messages
 {
     public sealed class StartAppMessage
     {
