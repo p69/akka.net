@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using AkkaChat.Navigation;
+using AkkaChat.Views;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -54,16 +55,16 @@ namespace AkkaChat
             {
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Contact,
-                    Label = "Basic Page",
-                    DestPage = typeof(MainPage)
+                    Symbol = Symbol.Message,
+                    Label = "Chat",
+                    DestPage = typeof(ChatPage)
                 },
-                //new NavMenuItem()
-                //{
-                //    Symbol = Symbol.Edit,
-                //    Label = "CommandBar Page",
-                //    DestPage = typeof(CommandBarPage)
-                //},
+                new NavMenuItem()
+                {
+                    Symbol = Symbol.Contact,
+                    Label = "Users",
+                    DestPage = typeof(UsersPage)
+                },
                 //new NavMenuItem()
                 //{
                 //    Symbol = Symbol.Favorite,
