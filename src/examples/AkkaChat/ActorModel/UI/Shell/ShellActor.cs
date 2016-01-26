@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Akka.Actor;
@@ -7,12 +8,28 @@ namespace AkkaChat.ActorModel.UI.Shell
 {
     public class ShellActor : ReceiveActor
     {
-        private readonly Frame _frame;
+        private Frame _frame;
 
-        public ShellActor(Frame frame)
+        public ShellActor()
         {
-            _frame = frame;
+            Become(NotReady);
+        }
+
+        private void NotReady()
+        {
+            Receive<AppLoadedMessage>(msg => OnAppLoaded(msg));
+        }
+
+        private void Ready()
+        {
             Receive<GoToPageMessage>(msg => GoToPage(msg));
+        }
+
+        private void OnAppLoaded(AppLoadedMessage message)
+        {
+            Debug.WriteLine($"App loaded in {message.LoadingTime.Milliseconds} mls");
+            _frame = message.Frame;
+            Become(Ready);
         }
 
         private void GoToPage(GoToPageMessage message)

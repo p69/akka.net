@@ -43,7 +43,7 @@ namespace AkkaChat
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-
+            var startLoadingTime = DateTimeOffset.Now;
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
@@ -58,7 +58,7 @@ namespace AkkaChat
             if (shell == null)
             {
                 // Create a AppShell to act as the navigation context and navigate to the first page
-                shell = new Shell();
+                shell = new Shell(startLoadingTime);
 
                 // Set the default language
                 shell.Language = Windows.Globalization.ApplicationLanguages.Languages[0];

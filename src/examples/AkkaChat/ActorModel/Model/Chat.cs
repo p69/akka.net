@@ -8,13 +8,13 @@ namespace AkkaChat.ActorModel.Model
 {
     public class Chat : ReceiveActor
     {
-        private readonly MainViewModel _mainVm;
+        private readonly UsersViewModel _usersVm;
         private readonly Dictionary<string, IActorRef> _users = new Dictionary<string, IActorRef>();
         private readonly List<SendTextMessage> _messagesHistory = new List<SendTextMessage>();
 
-        public Chat(MainViewModel mainVm)
+        public Chat(UsersViewModel usersVm)
         {
-            _mainVm = mainVm;
+            _usersVm = usersVm;
             Receive<AddUserMessage>(msg => AddUser(msg));
             Receive<SendTextMessage>(msg => OnNewMessage(msg));
         }
@@ -22,7 +22,7 @@ namespace AkkaChat.ActorModel.Model
         private void OnNewMessage(SendTextMessage sendTextMessage)
         {
             _messagesHistory.Add(sendTextMessage);
-            _mainVm.Chat.OnTextMessageReceived(new TextReceivedMessage(sendTextMessage.UserName, sendTextMessage.Text));
+            //_usersVm.Chat.OnTextMessageReceived(new TextReceivedMessage(sendTextMessage.UserName, sendTextMessage.Text));
         }
 
         private void AddUser(AddUserMessage message)
@@ -31,7 +31,7 @@ namespace AkkaChat.ActorModel.Model
             {
                 var userActor = AppRoot.System.ActorOf(Props.Create(() => new User()), $"user-{_users.Count+1}");
                 _users.Add(message.Name, userActor);
-                _mainVm.OnUserJoint(new UserJointMessage(message.Name));
+                _usersVm.OnUserJoint(new UserJointMessage(message.Name));
             }
         }
     }

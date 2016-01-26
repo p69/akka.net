@@ -5,11 +5,10 @@ using AkkaChat.Bootstrapping;
 
 namespace AkkaChat.ViewModels
 {
-    public sealed class MainViewModel : BindableBase
+    public sealed class UsersViewModel : BindableBase
     {
-        public MainViewModel()
+        public UsersViewModel()
         {
-            Chat = new ChatViewModel();
         }
 
         public void OnUserJoint(UserJointMessage message)
@@ -27,7 +26,5 @@ namespace AkkaChat.ViewModels
             AppRoot.System.ActorSelection(ActorPath.FormatPathElements(new[] {"user","chat"}))
                 .Tell(new AddUserMessage(userName));
         }
-
-        public ChatViewModel Chat { get; }
     }
 }
