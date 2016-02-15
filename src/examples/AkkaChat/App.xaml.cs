@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using AkkaChat.Bootstrapping;
+using AkkaChat.Features;
 
 namespace AkkaChat
 {
@@ -50,17 +51,17 @@ namespace AkkaChat
             }
 #endif
 
-            Shell shell = Window.Current.Content as Shell;
+            var layout = Window.Current.Content as Layout;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (shell == null)
+            if (layout == null)
             {
                 // Create a AppShell to act as the navigation context and navigate to the first page
-                shell = new Shell();
+                layout = new Layout();
 
                 // Set the default language
-                shell.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+                layout.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
@@ -69,7 +70,7 @@ namespace AkkaChat
             }
 
             // Place our app shell in the current Window
-            Window.Current.Content = shell;
+            Window.Current.Content = layout;
 
             // Ensure the current window is active
             Window.Current.Activate();
