@@ -1,4 +1,4 @@
-﻿namespace AkkaChat
+﻿namespace AkkaChat.ActorModel
 {
     public static class AkkaDIspatchers
     {

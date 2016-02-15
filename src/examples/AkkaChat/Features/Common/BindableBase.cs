@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Akka.Actor;
 
-namespace AkkaChat.ViewModels
+namespace AkkaChat.Features.Common
 {
-    public class ReceiveActorViewModel : ReceiveActor, INotifyPropertyChanged
+    public class BindableBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

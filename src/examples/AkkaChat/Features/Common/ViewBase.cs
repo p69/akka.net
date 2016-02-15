@@ -1,9 +1,10 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Windows.UI.Xaml.Controls;
 
-namespace AkkaChat.ViewModels
+namespace AkkaChat.Features.Common
 {
-    public class BindableBase : INotifyPropertyChanged
+    public class ViewBase : UserControl, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

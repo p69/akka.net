@@ -1,0 +1,35 @@
+﻿<local:IndexBase
+    x:Class="AkkaChat.Features.About.Index"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:AkkaChat.Features.About"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="300"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+    <Grid
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock
+            Margin="0,20,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Foreground="Black"
+            FontSize="24"
+            Text="{x:Bind Vm.Title, Mode=OneWay}" />
+        <TextBlock
+            Margin="0,20,0,0"
+            Grid.Row="1"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Foreground="DarkSlateGray"
+            FontSize="16"
+            Text="{x:Bind Vm.About, Mode=OneWay}" />
+    </Grid>
+</local:IndexBase>
