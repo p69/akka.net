@@ -9,10 +9,23 @@
     d:DesignWidth="400"
     mc:Ignorable="d">
     <Grid
+        x:Name="Root"
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
-        Tapped="{x:Bind Vm.OnTap}"
-        Background="Transparent">
+        Background="Transparent"
+        Tapped="{x:Bind Vm.OnTap}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="SelectionGroup">
+                <VisualState x:Name="SelectedState">
+                    <VisualState.StateTriggers>
+                        <StateTrigger IsActive="{x:Bind Vm.IsSelected, Mode=OneWay}"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="Root.Background" Value="Yellow"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <TextBlock
             Margin="5"
             HorizontalAlignment="Center"

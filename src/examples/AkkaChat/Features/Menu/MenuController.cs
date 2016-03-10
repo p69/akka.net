@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Akka.Actor;
+using Akka.Util.Internal;
 using AkkaChat.ActorModel.UI.Routing.Messages;
 using AkkaChat.Bootstrapping;
 using AkkaChat.Features.Layout.Messages;
@@ -21,7 +22,12 @@ namespace AkkaChat.Features.Menu
 
         private void OnCurrentRouteChanged(RouteChangedMessage routeChangedMessage)
         {
-            //TODO: change selected
+            var selectedItem = _menuVm?.Items.FirstOrDefault(x => x.Path == routeChangedMessage.CurrentRoutePath);
+            if (selectedItem != null)
+            {
+                _menuVm.Items.ForEach(x=>x.IsSelected = false);
+                selectedItem.IsSelected = true;
+            }
         }
 
         private void InitVm(AllRoutesMessageReply message)

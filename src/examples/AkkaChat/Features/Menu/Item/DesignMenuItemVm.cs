@@ -8,5 +8,8 @@ namespace AkkaChat.Features.Menu.Item
         public void OnTap()
         {
         }
+
+        public bool IsSelected { get; set; } = true;
+        public string Path { get; } = "/path";
     }
 }

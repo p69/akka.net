@@ -7,18 +7,33 @@ namespace AkkaChat.Features.Menu.Item
 {
     public class MenuItemVm : BindableBase, IMenuItemVm
     {
-        private readonly string _path;
+        private bool _isSelected;
 
         public MenuItemVm(string name, string path)
         {
-            _path = path;
             Name = name;
+            Path = path;
         }
 
         public string Name { get; }
         public void OnTap()
         {
-            AppRoot.Router.Tell(new RouteMessage(_path), ActorRefs.Nobody);
+            AppRoot.Router.Tell(new RouteMessage(Path), ActorRefs.Nobody);
         }
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (_isSelected != value)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string Path { get; }
     }
 }
