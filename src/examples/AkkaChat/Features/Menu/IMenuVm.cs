@@ -3,7 +3,7 @@ using AkkaChat.Features.Menu.Item;
 
 namespace AkkaChat.Features.Menu
 {
-    public interface IIndexVm
+    public interface IMenuVm
     {
         ObservableCollection<IMenuItemVm> Items { get; }
     }

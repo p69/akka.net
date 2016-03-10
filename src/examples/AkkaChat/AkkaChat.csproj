@@ -11,8 +11,8 @@
     <AssemblyName>AkkaChat</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -101,9 +101,18 @@
     <Compile Include="ActorModel\Model\Chat.cs" />
     <Compile Include="ActorModel\Model\User.cs" />
     <Compile Include="ActorModel\AkkaDIspatchers.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\AllRoutesMessageReply.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\RouteChangedMessage.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\SubscribeToRouteChanges.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\InitRouting.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\NavigateMessage.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\NotFoundMessage.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\RouteMessage.cs" />
+    <Compile Include="ActorModel\UI\Routing\Router.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bootstrapping\AppReadyMessage.cs" />
     <Compile Include="Bootstrapping\AppRoot.cs" />
     <Compile Include="ActorModel\Messages\SendTextMessage.cs" />
     <Compile Include="ActorModel\Messages\StartAppMessage.cs" />
@@ -124,11 +133,14 @@
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Home\IndexVm.cs" />
-    <Compile Include="Features\Layout.xaml.cs">
+    <Compile Include="Features\Layout\Layout.xaml.cs">
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Features\Menu\DesignIndexVm.cs" />
-    <Compile Include="Features\Menu\IIndexVm.cs" />
+    <Compile Include="Features\Layout\LayoutController.cs" />
+    <Compile Include="Features\Layout\Messages\LayoutReady.cs" />
+    <Compile Include="Features\Layout\Messages\ShowView.cs" />
+    <Compile Include="Features\Menu\DesignMenuVm.cs" />
+    <Compile Include="Features\Menu\IMenuVm.cs" />
     <Compile Include="Features\Menu\Index.xaml.cs">
       <DependentUpon>Index.xaml</DependentUpon>
     </Compile>
@@ -139,6 +151,8 @@
     </Compile>
     <Compile Include="Features\Menu\Item\MenuItemVm.cs" />
     <Compile Include="Features\Menu\MenuController.cs" />
+    <Compile Include="Features\Menu\MenuVm.cs" />
+    <Compile Include="Features\Menu\Messages\MenuReady.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Features\Common\BindableBase.cs" />
   </ItemGroup>
@@ -171,7 +185,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Features\Layout.xaml">
+    <Page Include="Features\Layout\Layout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,9 +204,7 @@
       <Name>Akka.Portable</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ActorModel\UI\Routing\Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

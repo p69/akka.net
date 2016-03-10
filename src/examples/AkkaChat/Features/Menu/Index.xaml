@@ -13,7 +13,7 @@
         HorizontalAlignment="Stretch"
         VerticalAlignment="Stretch"
         Background="Gray">
-       <ItemsControl ItemsSource="{x:Bind Vm.Items}">
+       <ItemsControl ItemsSource="{x:Bind Vm.Items, Mode=OneWay}">
            <ItemsControl.ItemTemplate>
                <DataTemplate x:DataType="item:IMenuItemVm">
                    <item:MenuItem Vm="{x:Bind '', Mode=OneWay}"/>

@@ -4,7 +4,7 @@ using AkkaChat.Features.Menu.Item;
 
 namespace AkkaChat.Features.Menu
 {
-    public class DesignIndexVm : BindableBase, IIndexVm
+    public class DesignMenuVm : BindableBase, IMenuVm
     {
         public ObservableCollection<IMenuItemVm> Items { get; } = new ObservableCollection<IMenuItemVm>()
         {

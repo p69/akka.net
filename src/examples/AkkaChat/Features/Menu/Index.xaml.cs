@@ -20,7 +20,7 @@ namespace AkkaChat.Features.Menu
 {
     public class IndexBase : ViewBase
     {
-        private IIndexVm _vm;
+        private IMenuVm _vm;
         private static readonly DependencyProperty VmProperty;
 
         static IndexBase()
@@ -29,13 +29,13 @@ namespace AkkaChat.Features.Menu
             {
                 VmProperty = DependencyProperty.Register(
                     nameof(Vm),
-                    typeof(IIndexVm),
+                    typeof(IMenuVm),
                     typeof(IndexBase),
-                    new PropertyMetadata(default(IIndexVm)));
+                    new PropertyMetadata(default(IMenuVm)));
             }
         }
 
-        public IIndexVm Vm
+        public IMenuVm Vm
         {
             get { return this.GetValueForXBind(VmProperty, _vm); }
             set
@@ -54,7 +54,7 @@ namespace AkkaChat.Features.Menu
                 this.RegisterPropertyChangedCallback(VmProperty, (s, e) => Vm = Vm);
                 if (typeof(IndexBase) == GetType())
                 {
-                    this.Vm = new DesignIndexVm();
+                    this.Vm = new DesignMenuVm();
                 }
             }
         }
