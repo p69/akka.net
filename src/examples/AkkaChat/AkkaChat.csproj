@@ -124,15 +124,16 @@
     </Compile>
     <Compile Include="Features\About\IndexVm.cs" />
     <Compile Include="Features\Common\DesignModeMagic.cs" />
+    <Compile Include="Features\Common\IView.cs" />
     <Compile Include="Features\Common\ViewBase.cs" />
     <Compile Include="Features\Common\ViewByUrl.cs" />
-    <Compile Include="Features\Home\DesignIndexVm.cs" />
+    <Compile Include="Features\Home\DesignHomeVm.cs" />
     <Compile Include="Features\Home\HomeController.cs" />
-    <Compile Include="Features\Home\IIndexVm.cs" />
-    <Compile Include="Features\Home\Index.xaml.cs">
-      <DependentUpon>Index.xaml</DependentUpon>
+    <Compile Include="Features\Home\IHomeVm.cs" />
+    <Compile Include="Features\Home\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Features\Home\IndexVm.cs" />
+    <Compile Include="Features\Home\HomeVm.cs" />
     <Compile Include="Features\Layout\Layout.xaml.cs">
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
@@ -181,7 +182,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Features\Home\Index.xaml">
+    <Page Include="Features\Home\HomeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

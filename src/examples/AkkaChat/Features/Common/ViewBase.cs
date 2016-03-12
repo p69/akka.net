@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace AkkaChat.Features.Common
 {
-    public class ViewBase : UserControl, INotifyPropertyChanged
+    public class ViewBase : UserControl, IView
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

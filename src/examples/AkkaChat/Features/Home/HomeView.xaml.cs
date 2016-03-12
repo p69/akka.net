@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.Foundation;
@@ -15,27 +16,26 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using AkkaChat.Features.Common;
 
-
 namespace AkkaChat.Features.Home
 {
-    public class IndexBase : ViewBase
+    public class HomeViewBase : ViewBase
     {
-        private IIndexVm _vm;
+        private IHomeVm _vm;
         private static readonly DependencyProperty VmProperty;
 
-        static IndexBase()
+        static HomeViewBase()
         {
             if (DesignMode.DesignModeEnabled)
             {
                 VmProperty = DependencyProperty.Register(
                     nameof(Vm),
-                    typeof(IIndexVm),
-                    typeof(IndexBase),
-                    new PropertyMetadata(default(IIndexVm)));
+                    typeof(IHomeVm),
+                    typeof(HomeViewBase),
+                    new PropertyMetadata(default(IHomeVm)));
             }
         }
 
-        public IIndexVm Vm
+        public IHomeVm Vm
         {
             get { return this.GetValueForXBind(VmProperty, _vm); }
             set
@@ -47,24 +47,47 @@ namespace AkkaChat.Features.Home
             }
         }
 
-        public IndexBase()
+        public HomeViewBase()
         {
             if (DesignMode.DesignModeEnabled)
             {
                 this.RegisterPropertyChangedCallback(VmProperty, (s, e) => Vm = Vm);
-                if (typeof(IndexBase) == GetType())
+                if (typeof(HomeViewBase) == GetType())
                 {
-                    this.Vm = new DesignIndexVm();
+                    this.Vm = new DesignHomeVm();
                 }
             }
         }
     }
 
-    public sealed partial class Index
+    public sealed partial class HomeView : IHomeView
     {
-        public Index()
+        public HomeView()
         {
             this.InitializeComponent();
+            Loaded += OnLoaded;
+            UserActions = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                handler => ChangeTitleButton.Click += handler,
+                handler => ChangeTitleButton.Click -= handler)
+                .Select(_ => HomeViewAction.ChangeTitle);
         }
+
+        private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
+        {
+            
+        }
+
+        public IObservable<HomeViewAction> UserActions { get; }
+    }
+
+    public interface IHomeView : IView
+    {
+        IHomeVm Vm { get; set; }
+        IObservable<HomeViewAction> UserActions { get; }
+    }
+
+    public enum HomeViewAction
+    {
+        ChangeTitle
     }
 }

@@ -16,10 +16,14 @@ namespace AkkaChat.Features.Layout
             this.InitializeComponent();
         }
 
-        public void ChangeMainView(ViewBase view)
+        public void ChangeMainView(IView view)
         {
-            MainFrameHost.Children.Clear();
-            MainFrameHost.Children.Add(view);
+            var control = view as UserControl;
+            if (control != null)
+            {
+                MainFrameHost.Children.Clear();
+                MainFrameHost.Children.Add(control);
+            }
         }
 
         public void SetMenuVm(IMenuVm menuVm)

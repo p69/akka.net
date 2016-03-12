@@ -4,11 +4,11 @@ namespace AkkaChat.Features.Layout.Messages
 {
     public sealed class ShowView
     {
-        public ShowView(ViewBase view)
+        public ShowView(IView view)
         {
             View = view;
         }
 
-        public ViewBase View { get; }
+        public IView View { get; }
     }
 }
