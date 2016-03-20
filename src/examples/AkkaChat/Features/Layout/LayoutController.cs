@@ -3,7 +3,6 @@ using Akka.Actor;
 using AkkaChat.ActorModel;
 using AkkaChat.ActorModel.UI.Routing.Messages;
 using AkkaChat.Features.Common.Messages.Navigation;
-using AkkaChat.Features.Layout.Messages;
 using AkkaChat.Features.Menu;
 using AkkaChat.Features.Menu.Messages;
 

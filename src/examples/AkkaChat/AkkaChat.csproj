@@ -138,7 +138,7 @@
     </Compile>
     <Compile Include="Features\Layout\LayoutController.cs" />
     <Compile Include="Features\Common\Messages\Navigation\OnNavigatedTo.cs" />
-    <Compile Include="Features\Layout\Messages\ShowView.cs" />
+    <Compile Include="Features\Common\Messages\Navigation\ShowView.cs" />
     <Compile Include="Features\Menu\DesignMenuVm.cs" />
     <Compile Include="Features\Menu\IMenuVm.cs" />
     <Compile Include="Features\Menu\Index.xaml.cs">
