@@ -1,4 +1,4 @@
-﻿namespace AkkaChat.Features.Layout.Messages
+﻿namespace AkkaChat.Features.Common.Messages.Navigation
 {
     public sealed class OnNavigatedTo
     {

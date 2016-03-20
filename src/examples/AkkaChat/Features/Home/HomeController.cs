@@ -1,5 +1,6 @@
 ﻿using System;
 using Akka.Actor;
+using AkkaChat.Features.Common.Messages.Navigation;
 using AkkaChat.Features.Layout.Messages;
 
 namespace AkkaChat.Features.Home
