@@ -1,7 +1,5 @@
 ﻿using System;
 using Akka.Actor;
-using AkkaChat.ActorModel.UI.Routing.Messages;
-using AkkaChat.Bootstrapping;
 using AkkaChat.Features.Layout.Messages;
 
 namespace AkkaChat.Features.Home
@@ -14,7 +12,7 @@ namespace AkkaChat.Features.Home
 
         public HomeController()
         {
-            Receive<NavigateMessage>(_ => OnNavigated());
+            Receive<OnNavigatedTo>(_ => OnNavigated());
         }
 
         protected override void PostStop()
@@ -29,7 +27,7 @@ namespace AkkaChat.Features.Home
         {
             if (_view != null)
             {
-                AppRoot.LayoutController.Tell(new ShowView(_view));
+                Context.Parent.Tell(new ShowView(_view));
             }
             else
             {
@@ -37,7 +35,7 @@ namespace AkkaChat.Features.Home
                 _viewActionsSub = _view.UserActions.Subscribe(OnUserAction);
                 _vm = new HomeVm();
                 _view.Vm = _vm;
-                AppRoot.LayoutController.Tell(new ShowView(_view));
+                Context.Parent.Tell(new ShowView(_view));
             }
         }
 

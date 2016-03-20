@@ -13,14 +13,18 @@ namespace AkkaChat.Bootstrapping
         public static void Start(Layout layoutView)
         {
             System = ActorSystem.Create("akka-chat-system");
+
+            var layout =
+               System.ActorOf(
+                   Props.Create(() => new LayoutController(layoutView)).WithDispatcher(AkkaDIspatchers.UiDispatcher),
+                   "layout");
+
             Router =
-                System.ActorOf(Props.Create(() => new Router()).WithDispatcher(AkkaDIspatchers.UiDispatcher), "router");
-            LayoutController =
                 System.ActorOf(
-                    Props.Create(() => new LayoutController(layoutView)).WithDispatcher(AkkaDIspatchers.UiDispatcher),
-                    "layput");
+                    Props.Create(() => new Router(layout)).WithDispatcher(AkkaDIspatchers.UiDispatcher),
+                    "router");
+
             InitRouting();
-            LayoutController.Tell(new AppReadyMessage());
         }
 
         private static void InitRouting()
@@ -35,6 +39,5 @@ namespace AkkaChat.Bootstrapping
 
         public static ActorSystem System { get; private set; }
         public static IActorRef Router { get; private set; }
-        public static IActorRef LayoutController { get; private set; }
     }
 }

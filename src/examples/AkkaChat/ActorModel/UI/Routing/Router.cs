@@ -8,13 +8,14 @@ namespace AkkaChat.ActorModel.UI.Routing
 {
     public class Router : ReceiveActor
     {
+        private readonly IActorRef _layoutController;
         private IDictionary<string, RouteEntry> _routesMap;
-        private IDictionary<string, IActorRef> _routeeCache;
         private readonly HashSet<IActorRef> _subscribers;
         private string _currentRoute;
 
-        public Router()
+        public Router(IActorRef layoutController)
         {
+            _layoutController = layoutController;
             _subscribers = new HashSet<IActorRef>();
             Become(NotInited);
         }
@@ -26,37 +27,27 @@ namespace AkkaChat.ActorModel.UI.Routing
 
         private void Inited()
         {
-            Receive<RouteMessage>(msg => HandleRoute(msg));
+            Receive<GoToMessage>(msg => HandleRoute(msg));
             Receive<SubscribeToRouteChanges>(msg => SubscribeToChanges(msg));
         }
 
         private void Init(InitRouting message)
         {
             _routesMap = message.Routes.ToDictionary(x => x.Path);
-            _routeeCache = new Dictionary<string, IActorRef>(message.Routes.Count);
+            _layoutController.Tell(
+                new RouterReady(
+                    _routesMap.Values.Select(x => new RouteItem(x.Name, x.Path)).ToList(),
+                    _currentRoute));
             Become(Inited);
         }
 
-        private void HandleRoute(RouteMessage message)
+        private void HandleRoute(GoToMessage message)
         {
             RouteEntry route;
             if (_routesMap.TryGetValue(message.Path, out route))
             {
-                IActorRef routee;
-                if (message.CacheActor)
-                {
-                    if (!_routeeCache.TryGetValue(message.Path, out routee))
-                    {
-                        routee = Context.ActorOf(route.Props, route.Path);
-                        _routeeCache.Add(message.Path, routee);
-                    }
-                }
-                else
-                {
-                    routee = Context.ActorOf(route.Props);
-                }
                 _currentRoute = message.Path;
-                routee.Tell(new NavigateMessage());
+                _layoutController.Tell(new OnNavigatedMessage(route, ""));
                 if (_subscribers.Any())
                 {
                     var routeChangedMsg = new RouteChangedMessage(_currentRoute);
@@ -73,10 +64,6 @@ namespace AkkaChat.ActorModel.UI.Routing
         {
             if (_subscribers.Contains(msg.Subscriber)) return;
             _subscribers.Add(msg.Subscriber);
-            Sender.Tell(
-                new AllRoutesMessageReply(
-                    _routesMap.Values.Select(x => new RouteItem(x.Name, x.Path)).ToList(),
-                    _currentRoute));
         }
     }
 }

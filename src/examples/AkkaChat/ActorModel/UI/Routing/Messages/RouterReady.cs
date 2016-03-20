@@ -2,9 +2,9 @@
 
 namespace AkkaChat.ActorModel.UI.Routing.Messages
 {
-    public class AllRoutesMessageReply
+    public class RouterReady
     {
-        public AllRoutesMessageReply(IReadOnlyList<RouteItem> items, string currentRoute)
+        public RouterReady(IReadOnlyList<RouteItem> items, string currentRoute)
         {
             Items = items;
             CurrentRoute = currentRoute;

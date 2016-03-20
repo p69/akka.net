@@ -18,7 +18,7 @@ namespace AkkaChat.Features.Menu.Item
         public string Name { get; }
         public void OnTap()
         {
-            AppRoot.Router.Tell(new RouteMessage(Path, cacheActor: true), ActorRefs.Nobody);
+            AppRoot.Router.Tell(new GoToMessage(Path), ActorRefs.Nobody);
         }
 
         public bool IsSelected

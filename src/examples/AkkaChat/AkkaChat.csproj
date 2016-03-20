@@ -101,18 +101,17 @@
     <Compile Include="ActorModel\Model\Chat.cs" />
     <Compile Include="ActorModel\Model\User.cs" />
     <Compile Include="ActorModel\AkkaDIspatchers.cs" />
-    <Compile Include="ActorModel\UI\Routing\Messages\AllRoutesMessageReply.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\RouterReady.cs" />
     <Compile Include="ActorModel\UI\Routing\Messages\RouteChangedMessage.cs" />
     <Compile Include="ActorModel\UI\Routing\Messages\SubscribeToRouteChanges.cs" />
     <Compile Include="ActorModel\UI\Routing\Messages\InitRouting.cs" />
-    <Compile Include="ActorModel\UI\Routing\Messages\NavigateMessage.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\OnNavigatedMessage.cs" />
     <Compile Include="ActorModel\UI\Routing\Messages\NotFoundMessage.cs" />
-    <Compile Include="ActorModel\UI\Routing\Messages\RouteMessage.cs" />
+    <Compile Include="ActorModel\UI\Routing\Messages\GoToMessage.cs" />
     <Compile Include="ActorModel\UI\Routing\Router.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Bootstrapping\AppReadyMessage.cs" />
     <Compile Include="Bootstrapping\AppRoot.cs" />
     <Compile Include="ActorModel\Messages\SendTextMessage.cs" />
     <Compile Include="ActorModel\Messages\StartAppMessage.cs" />
@@ -138,7 +137,7 @@
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Features\Layout\LayoutController.cs" />
-    <Compile Include="Features\Layout\Messages\LayoutReady.cs" />
+    <Compile Include="Features\Layout\Messages\OnNavigatedTo.cs" />
     <Compile Include="Features\Layout\Messages\ShowView.cs" />
     <Compile Include="Features\Menu\DesignMenuVm.cs" />
     <Compile Include="Features\Menu\IMenuVm.cs" />

@@ -1,6 +1,4 @@
 ﻿using Akka.Actor;
-using AkkaChat.ActorModel.UI.Routing.Messages;
-using AkkaChat.Bootstrapping;
 using AkkaChat.Features.Layout.Messages;
 
 namespace AkkaChat.Features.About
@@ -12,7 +10,7 @@ namespace AkkaChat.Features.About
 
         public AboutContoller()
         {
-            Receive<NavigateMessage>(_ => OnNavigated());
+            Receive<OnNavigatedTo>(_ => OnNavigated());
         }
 
         private void OnNavigated()
@@ -23,7 +21,7 @@ namespace AkkaChat.Features.About
             }
             _vm = new IndexVm();
             _view.Vm = _vm;
-            AppRoot.LayoutController.Tell(new ShowView(_view));
+            Context.Parent.Tell(new ShowView(_view));
         }
     }
 }
