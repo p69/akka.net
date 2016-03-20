@@ -1,14 +1,14 @@
 ﻿using AkkaChat.Features.Common;
 
-namespace AkkaChat.Features.Home
+namespace AkkaChat.Features.Chats
 {
-    public class HomeVm : BindableBase, IHomeVm
+    public class ChatsVm : BindableBase, IChatsVm
     {
         private string _title;
 
-        public HomeVm()
+        public ChatsVm()
         {
-            _title = "Home page";
+            _title = "Chats page";
         }
 
         public string Title

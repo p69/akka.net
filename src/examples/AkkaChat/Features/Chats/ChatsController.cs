@@ -2,15 +2,15 @@
 using Akka.Actor;
 using AkkaChat.Features.Common.Messages.Navigation;
 
-namespace AkkaChat.Features.Home
+namespace AkkaChat.Features.Chats
 {
-    public class HomeController : ReceiveActor
+    public class ChatsController : ReceiveActor
     {
-        private IHomeView _view;
-        private IHomeVm _vm;
+        private IChatsView _view;
+        private IChatsVm _vm;
         private IDisposable _viewActionsSub;
 
-        public HomeController()
+        public ChatsController()
         {
             Receive<OnNavigatedTo>(_ => OnNavigated());
         }
@@ -31,19 +31,19 @@ namespace AkkaChat.Features.Home
             }
             else
             {
-                _view = new HomeView();
+                _view = new ChatsView();
                 _viewActionsSub = _view.UserActions.Subscribe(OnUserAction);
-                _vm = new HomeVm();
+                _vm = new ChatsVm();
                 _view.Vm = _vm;
                 Context.Parent.Tell(new ShowView(_view));
             }
         }
 
-        private void OnUserAction(HomeViewAction action)
+        private void OnUserAction(ChatsViewAction action)
         {
             switch (action)
             {
-                case HomeViewAction.ChangeTitle:
+                case ChatsViewAction.ChangeTitle:
                     HandleChangeTitle();
                     break;
                 default:
@@ -54,7 +54,7 @@ namespace AkkaChat.Features.Home
         private void HandleChangeTitle()
         {
             var rnd = new Random();
-            _vm.Title = $"Home page {rnd.Next()}";
+            _vm.Title = $"Chats page {rnd.Next()}";
         }
     }
 }

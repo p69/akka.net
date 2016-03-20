@@ -2,9 +2,9 @@
 using AkkaChat.ActorModel;
 using AkkaChat.ActorModel.UI.Routing;
 using AkkaChat.ActorModel.UI.Routing.Messages;
-using AkkaChat.Features.About;
-using AkkaChat.Features.Home;
+using AkkaChat.Features.Chats;
 using AkkaChat.Features.Layout;
+using AkkaChat.Features.Settings;
 
 namespace AkkaChat.Bootstrapping
 {
@@ -31,8 +31,14 @@ namespace AkkaChat.Bootstrapping
         {
             var routes = new[]
             {
-                new RouteEntry("about", Props.Create(()=>new AboutContoller()).WithDispatcher(AkkaDIspatchers.UiDispatcher), "about"),
-                new RouteEntry("home", Props.Create(()=>new HomeController()).WithDispatcher(AkkaDIspatchers.UiDispatcher), "home")
+                new RouteEntry(
+                    path: "settings",
+                    props: Props.Create(() => new SettingsContoller()).WithDispatcher(AkkaDIspatchers.UiDispatcher),
+                    name: "Settings"),
+                new RouteEntry(
+                    path: "chats",
+                    props: Props.Create(() => new ChatsController()).WithDispatcher(AkkaDIspatchers.UiDispatcher),
+                    name: "Chats")
             };
             Router.Tell(new InitRouting(routes));
         }

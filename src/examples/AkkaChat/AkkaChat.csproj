@@ -115,24 +115,24 @@
     <Compile Include="Bootstrapping\AppRoot.cs" />
     <Compile Include="ActorModel\Messages\SendTextMessage.cs" />
     <Compile Include="ActorModel\Messages\StartAppMessage.cs" />
-    <Compile Include="Features\About\AboutContoller.cs" />
-    <Compile Include="Features\About\DesignIndexVm.cs" />
-    <Compile Include="Features\About\IIndexVm.cs" />
-    <Compile Include="Features\About\Index.xaml.cs">
-      <DependentUpon>Index.xaml</DependentUpon>
+    <Compile Include="Features\Settings\SettingsContoller.cs" />
+    <Compile Include="Features\Settings\DesignSettingsVm.cs" />
+    <Compile Include="Features\Settings\ISettingsVm.cs" />
+    <Compile Include="Features\Settings\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Features\About\IndexVm.cs" />
+    <Compile Include="Features\Settings\SettingsVm.cs" />
     <Compile Include="Features\Common\DesignModeMagic.cs" />
     <Compile Include="Features\Common\IView.cs" />
     <Compile Include="Features\Common\ViewBase.cs" />
     <Compile Include="Features\Common\ViewByUrl.cs" />
-    <Compile Include="Features\Home\DesignHomeVm.cs" />
-    <Compile Include="Features\Home\HomeController.cs" />
-    <Compile Include="Features\Home\IHomeVm.cs" />
-    <Compile Include="Features\Home\HomeView.xaml.cs">
-      <DependentUpon>HomeView.xaml</DependentUpon>
+    <Compile Include="Features\Chats\DesignChatsVm.cs" />
+    <Compile Include="Features\Chats\ChatsController.cs" />
+    <Compile Include="Features\Chats\IChatsVm.cs" />
+    <Compile Include="Features\Chats\ChatsView.xaml.cs">
+      <DependentUpon>ChatsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Features\Home\HomeVm.cs" />
+    <Compile Include="Features\Chats\ChatsVm.cs" />
     <Compile Include="Features\Layout\Layout.xaml.cs">
       <DependentUpon>Layout.xaml</DependentUpon>
     </Compile>
@@ -177,11 +177,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Features\About\Index.xaml">
+    <Page Include="Features\Settings\SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Features\Home\HomeView.xaml">
+    <Page Include="Features\Chats\ChatsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

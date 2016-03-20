@@ -1,8 +1,8 @@
 ﻿using AkkaChat.Features.Common;
 
-namespace AkkaChat.Features.About
+namespace AkkaChat.Features.Settings
 {
-    public class DesignIndexVm : BindableBase, IIndexVm
+    public class DesignSettingsVm : BindableBase, ISettingsVm
     {
         public string Title { get; } = "Design title";
         public string About { get; } = "Design long about description. Wow, magic.";

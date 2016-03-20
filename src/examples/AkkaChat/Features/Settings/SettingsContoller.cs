@@ -1,14 +1,14 @@
 ﻿using Akka.Actor;
 using AkkaChat.Features.Common.Messages.Navigation;
 
-namespace AkkaChat.Features.About
+namespace AkkaChat.Features.Settings
 {
-    public class AboutContoller : ReceiveActor
+    public class SettingsContoller : ReceiveActor
     {
-        private Index _view;
-        private IIndexVm _vm;
+        private SettingsView _view;
+        private ISettingsVm _vm;
 
-        public AboutContoller()
+        public SettingsContoller()
         {
             Receive<OnNavigatedTo>(_ => OnNavigated());
         }
@@ -17,9 +17,9 @@ namespace AkkaChat.Features.About
         {
             if (_view == null)
             {
-                _view = new Index();
+                _view = new SettingsView();
             }
-            _vm = new IndexVm();
+            _vm = new SettingsVm();
             _view.Vm = _vm;
             Context.Parent.Tell(new ShowView(_view));
         }

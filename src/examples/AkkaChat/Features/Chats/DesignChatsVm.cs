@@ -1,8 +1,8 @@
 ﻿using AkkaChat.Features.Common;
 
-namespace AkkaChat.Features.Home
+namespace AkkaChat.Features.Chats
 {
-    public class DesignHomeVm : BindableBase, IHomeVm
+    public class DesignChatsVm : BindableBase, IChatsVm
     {
         public string Title { get; set; } = "Design Title";
     }

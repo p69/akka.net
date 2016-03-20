@@ -1,41 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reactive.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using AkkaChat.Features.Common;
 
-namespace AkkaChat.Features.Home
+namespace AkkaChat.Features.Chats
 {
-    public class HomeViewBase : ViewBase
+    public class ChatsViewBase : ViewBase
     {
-        private IHomeVm _vm;
+        private IChatsVm _vm;
         private static readonly DependencyProperty VmProperty;
 
-        static HomeViewBase()
+        static ChatsViewBase()
         {
             if (DesignMode.DesignModeEnabled)
             {
                 VmProperty = DependencyProperty.Register(
                     nameof(Vm),
-                    typeof(IHomeVm),
-                    typeof(HomeViewBase),
-                    new PropertyMetadata(default(IHomeVm)));
+                    typeof(IChatsVm),
+                    typeof(ChatsViewBase),
+                    new PropertyMetadata(default(IChatsVm)));
             }
         }
 
-        public IHomeVm Vm
+        public IChatsVm Vm
         {
             get { return this.GetValueForXBind(VmProperty, _vm); }
             set
@@ -47,29 +35,29 @@ namespace AkkaChat.Features.Home
             }
         }
 
-        public HomeViewBase()
+        public ChatsViewBase()
         {
             if (DesignMode.DesignModeEnabled)
             {
                 this.RegisterPropertyChangedCallback(VmProperty, (s, e) => Vm = Vm);
-                if (typeof(HomeViewBase) == GetType())
+                if (typeof(ChatsViewBase) == GetType())
                 {
-                    this.Vm = new DesignHomeVm();
+                    this.Vm = new DesignChatsVm();
                 }
             }
         }
     }
 
-    public sealed partial class HomeView : IHomeView
+    public sealed partial class ChatsView : IChatsView
     {
-        public HomeView()
+        public ChatsView()
         {
             this.InitializeComponent();
             Loaded += OnLoaded;
             UserActions = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
                 handler => ChangeTitleButton.Click += handler,
                 handler => ChangeTitleButton.Click -= handler)
-                .Select(_ => HomeViewAction.ChangeTitle);
+                .Select(_ => ChatsViewAction.ChangeTitle);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -77,16 +65,16 @@ namespace AkkaChat.Features.Home
             
         }
 
-        public IObservable<HomeViewAction> UserActions { get; }
+        public IObservable<ChatsViewAction> UserActions { get; }
     }
 
-    public interface IHomeView : IView
+    public interface IChatsView : IView
     {
-        IHomeVm Vm { get; set; }
-        IObservable<HomeViewAction> UserActions { get; }
+        IChatsVm Vm { get; set; }
+        IObservable<ChatsViewAction> UserActions { get; }
     }
 
-    public enum HomeViewAction
+    public enum ChatsViewAction
     {
         ChangeTitle
     }

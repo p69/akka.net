@@ -1,6 +1,6 @@
-﻿namespace AkkaChat.Features.About
+﻿namespace AkkaChat.Features.Settings
 {
-    public interface IIndexVm
+    public interface ISettingsVm
     {
         string Title { get; }
         string About { get; }

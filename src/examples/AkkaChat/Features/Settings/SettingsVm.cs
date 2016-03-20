@@ -1,12 +1,12 @@
 ﻿using AkkaChat.Features.Common;
 
-namespace AkkaChat.Features.About
+namespace AkkaChat.Features.Settings
 {
-    public class IndexVm : BindableBase, IIndexVm
+    public class SettingsVm : BindableBase, ISettingsVm
     {
-        public IndexVm()
+        public SettingsVm()
         {
-            Title = "About page";
+            Title = "Settings page";
             About = "Using Akka.net and MVC routing for Universal Windows Application!";
         }
 
