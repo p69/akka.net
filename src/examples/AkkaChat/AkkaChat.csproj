@@ -199,13 +199,13 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\AkkaChat.Model\AkkaChat.Model.csproj">
-      <Project>{fc7fd3f0-c067-4e78-b854-e5c5472b048a}</Project>
-      <Name>AkkaChat.Model</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\core\Akka\Akka.Portable.csproj">
       <Project>{41567ee6-c4d8-49d5-a423-c7201b206777}</Project>
       <Name>Akka.Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AkkaChat.Model\AkkaChat.Model.csproj">
+      <Project>{fc7fd3f0-c067-4e78-b854-e5c5472b048a}</Project>
+      <Name>AkkaChat.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
