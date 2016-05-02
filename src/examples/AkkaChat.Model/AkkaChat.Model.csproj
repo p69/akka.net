@@ -39,7 +39,16 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connection\IConnectionService.cs" />
+    <Compile Include="Connection\Messages\ConnectionChangedMessage.cs" />
+    <Compile Include="Connection\Messages\ConnectMessage.cs" />
+    <Compile Include="Connection\Messages\SubscribeToConnectionChanged.cs" />
+    <Compile Include="Connection\ServerConnectionActor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalR\ChatServerClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Chat\User\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\core\Akka\Akka.Portable.csproj">
