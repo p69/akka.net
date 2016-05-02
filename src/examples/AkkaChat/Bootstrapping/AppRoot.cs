@@ -5,6 +5,8 @@ using AkkaChat.ActorModel.UI.Routing.Messages;
 using AkkaChat.Features.Chats;
 using AkkaChat.Features.Layout;
 using AkkaChat.Features.Settings;
+using AkkaChat.Model.Connection;
+using AkkaChat.Model.SignalR;
 
 namespace AkkaChat.Bootstrapping
 {
@@ -29,11 +31,13 @@ namespace AkkaChat.Bootstrapping
 
         private static void InitRouting()
         {
+            var client = new ChatServerClient();
+            var connectionProps = Props.Create(() => new ServerConnectionActor(client));
             var routes = new[]
             {
                 new RouteEntry(
                     path: "settings",
-                    props: Props.Create(() => new SettingsContoller()).WithDispatcher(AkkaDIspatchers.UiDispatcher),
+                    props: Props.Create(() => new SettingsContoller(connectionProps)).WithDispatcher(AkkaDIspatchers.UiDispatcher),
                     name: "Settings"),
                 new RouteEntry(
                     path: "chats",

@@ -1,6 +1,9 @@
-﻿using Windows.ApplicationModel;
+﻿using System;
+using System.Reactive.Linq;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using AkkaChat.Features.Common;
+using JetBrains.Annotations;
 
 namespace AkkaChat.Features.Settings
 {
@@ -46,11 +49,26 @@ namespace AkkaChat.Features.Settings
         }
     }
 
-    public sealed partial class SettingsView
+    public sealed partial class SettingsView : ISettingsView
     {
         public SettingsView()
         {
             this.InitializeComponent();
+            OnUserConnect = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
+                handler => ConnectButton.Click += handler,
+                handler => ConnectButton.Click -= handler)
+                .Select(_ => UserName.Text)
+                .Where(x => !string.IsNullOrWhiteSpace(x));
         }
+
+        public IObservable<string> OnUserConnect { get; }
+    }
+
+    public interface ISettingsView : IView
+    {
+        ISettingsVm Vm { get; }
+
+        [NotNull]
+        IObservable<string> OnUserConnect { get; } 
     }
 }

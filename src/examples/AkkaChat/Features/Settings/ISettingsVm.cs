@@ -3,6 +3,6 @@
     public interface ISettingsVm
     {
         string Title { get; }
-        string About { get; }
+        void Connect(string userName);
     }
 }

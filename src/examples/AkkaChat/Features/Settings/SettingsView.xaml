@@ -23,13 +23,21 @@
             Foreground="Black"
             FontSize="24"
             Text="{x:Bind Vm.Title, Mode=OneWay}" />
-        <TextBlock
-            Margin="0,20,0,0"
-            Grid.Row="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <TextBox       
+                x:Name="UserName"
+            VerticalAlignment="Center"
             Foreground="DarkSlateGray"
-            FontSize="16"
-            Text="{x:Bind Vm.About, Mode=OneWay}" />
+            FontSize="16"            />
+            <Button
+            x:Name="ConnectButton"            
+            Width="200"
+            Height="50"
+            Margin="20,0,0,0"
+            HorizontalAlignment="Center">
+                Connect
+            </Button>
+        </StackPanel>
+        
     </Grid>
 </settings:SettingsViewBase>

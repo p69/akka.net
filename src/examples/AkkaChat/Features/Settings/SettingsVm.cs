@@ -7,10 +7,14 @@ namespace AkkaChat.Features.Settings
         public SettingsVm()
         {
             Title = "Settings page";
-            About = "Using Akka.net and MVC routing for Universal Windows Application!";
+            UserName = "Using Akka.net and MVC routing for Universal Windows Application!";
         }
 
         public string Title { get; }
-        public string About { get; }
+        public void Connect(string userName)
+        {
+        }
+
+        public string UserName { get; }
     }
 }
