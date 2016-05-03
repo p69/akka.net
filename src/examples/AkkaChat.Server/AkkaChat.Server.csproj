@@ -85,6 +85,7 @@
   <ItemGroup>
     <Compile Include="AppStart.cs" />
     <Compile Include="ChatHub.cs" />
+    <Compile Include="JoinResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

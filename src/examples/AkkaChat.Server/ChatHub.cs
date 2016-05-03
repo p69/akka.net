@@ -12,17 +12,16 @@ namespace AkkaChat.Server
             _users = new HashSet<string>();
         }
 
-        public void Login(string userName)
+        public JoinResult Login(string userName)
         {
             if (string.IsNullOrWhiteSpace(userName) ||
                 _users.Contains(userName))
             {
-                Clients.Caller.joinFailed();
-                return;
+                return new JoinResult(error: $"{userName} already joined");
             }
             _users.Add(userName);
             Clients.Others.userJoined(userName);
-            Clients.Caller.joinOk();
+            return new JoinResult();
         }
 
         public void SendMessage(string userName, string text)
