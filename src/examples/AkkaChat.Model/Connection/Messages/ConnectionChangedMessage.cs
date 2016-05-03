@@ -2,13 +2,56 @@
 {
     public sealed class ConnectionChangedMessage
     {
-        public ConnectionChangedMessage(bool isConnected, string connectedUser)
+        private ConnectionChangedMessage(ConectionStatus status, string connectionError)
         {
-            IsConnected = isConnected;
-            ConnectedUser = connectedUser;
+            Status = status;
+            ConnectionError = connectionError;
         }
 
-        public bool IsConnected { get; }
-        public string ConnectedUser { get; }
+        public ConectionStatus Status { get; }
+        public string ConnectionError { get; }
+
+        public static ConnectionChangedMessage Disconnected()
+        {
+            return new ConnectionChangedMessage(
+                status: ConectionStatus.Disconnected,
+                connectionError: null);
+        }
+
+        public static ConnectionChangedMessage Connecting()
+        {
+            return new ConnectionChangedMessage(
+                status: ConectionStatus.Connecting,
+                connectionError: null);
+        }
+
+        public static ConnectionChangedMessage Connected()
+        {
+            return new ConnectionChangedMessage(
+                status: ConectionStatus.Connected,
+                connectionError: null);
+        }
+
+        public static ConnectionChangedMessage Reconnecting()
+        {
+            return new ConnectionChangedMessage(
+                status: ConectionStatus.Reconnecting,
+                connectionError: null);
+        }
+
+        public static ConnectionChangedMessage Error(string error)
+        {
+            return new ConnectionChangedMessage(
+                status: ConectionStatus.Disconnected,
+                connectionError: error);
+        }
+    }
+
+    public enum ConectionStatus
+    {
+        Disconnected,
+        Connecting,
+        Connected,
+        Reconnecting
     }
 }

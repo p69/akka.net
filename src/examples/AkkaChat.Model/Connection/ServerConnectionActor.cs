@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using Akka.Actor;
 using AkkaChat.Model.Connection.Messages;
+using AkkaChat.Model.Connection.Messages.ServerActions;
+using AkkaChat.Model.Dto;
+using AkkaChat.Model.SignalR;
 using JetBrains.Annotations;
 
 namespace AkkaChat.Model.Connection
@@ -11,23 +14,20 @@ namespace AkkaChat.Model.Connection
         [NotNull]
         private readonly IConnectionService _connectionService;
         [NotNull]
-        private readonly IDisposable _connectionChangedSub;
-        [NotNull]
         private readonly HashSet<IActorRef> _subscribers;
 
-        public ServerConnectionActor([NotNull] IConnectionService connectionService)
+        public ServerConnectionActor()
         {
-            _connectionService = connectionService;
+            _connectionService = new ChatServerClient(Self);
             _subscribers = new HashSet<IActorRef>();
-            _connectionChangedSub = _connectionService.IsConnected.Subscribe(OnIsConnectedChanged);
             Receive<SubscribeToConnectionChanged>(msg => AddSubscriber(msg.Subscriber));
-            Become(NotConnected);
+            Become(Disconnected);
         }
 
         protected override void PostStop()
         {
             base.PostStop();
-            _connectionChangedSub.Dispose();
+            _connectionService.Dispose();
         }
 
         private void AddSubscriber(IActorRef subscriber)
@@ -36,44 +36,58 @@ namespace AkkaChat.Model.Connection
             _subscribers.Add(subscriber);
         }
 
-        private void OnIsConnectedChanged(bool isConnected)
+        private void OnIsConnectedChanged(ConnectionChangedMessage msg)
         {
-            if (isConnected)
+            foreach (var subscriber in _subscribers)
             {
-                Become(Connected);
+                subscriber.Tell(msg);
             }
-            else
+
+            switch (msg.Status)
             {
-                Become(NotConnected);
+                case ConectionStatus.Disconnected:
+                    Become(Disconnected);
+                    break;
+                case ConectionStatus.Connecting:
+                    Become(Connecting);
+                    break;
+                case ConectionStatus.Connected:
+                    Become(Connected);
+                    break;
+                case ConectionStatus.Reconnecting:
+                    Become(Connecting);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        private void NotConnected()
+        private void Disconnected()
         {
             Receive<ConnectMessage>(msg => DoConnect(msg.UserName));
-            var message = new ConnectionChangedMessage(
-                isConnected: false,
-                connectedUser: null);
-            foreach (var subscriber in _subscribers)
-            {
-                subscriber.Tell(message, Self);
-            }
+        }
+
+        private void Connecting()
+        {
+            Receive<ConnectionChangedMessage>(msg => OnIsConnectedChanged(msg));
         }
 
         private void Connected()
         {
-            var message = new ConnectionChangedMessage(
-                isConnected: true,
-                connectedUser: _connectionService.ConnectedUserName);
-            foreach (var subscriber in _subscribers)
-            {
-                subscriber.Tell(message);
-            }
+            Receive<ConnectionChangedMessage>(msg => OnIsConnectedChanged(msg));
+            Receive<JoinChatActionMessage>(msg => JoinChat(msg));
+        }
+
+        private void JoinChat(JoinChatActionMessage msg)
+        {
+            _connectionService.Invoke<JoinResult, string>("Login", msg.UserName).PipeTo(Sender);
         }
 
         private void DoConnect(string userName)
         {
-            _connectionService.Connect(userName).ConfigureAwait(false);
+            Become(Connecting);
+            var self = Self;
+            _connectionService.Connect().PipeTo(self);
         }
     }
 }
