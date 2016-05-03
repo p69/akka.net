@@ -31,8 +31,7 @@ namespace AkkaChat.Bootstrapping
 
         private static void InitRouting()
         {
-            var client = new ChatServerClient();
-            var connectionProps = Props.Create(() => new ServerConnectionActor(client));
+            var connectionProps = Props.Create(() => new ServerConnectionActor());
             var routes = new[]
             {
                 new RouteEntry(

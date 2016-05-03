@@ -56,7 +56,9 @@ namespace AkkaChat.Features.Settings
 
         private void OnConnectionChanged(ConnectionChangedMessage msg)
         {
-            var isConnected = msg.IsConnected;
+            var status = msg.Status;
+            var user = msg.ConnectedUser;
+            var error = msg.ConnectionError;
         }
     }
 }
