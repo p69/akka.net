@@ -39,24 +39,13 @@ namespace AkkaChat.Features.Settings
         }
         private void OnNavigated()
         {
-            if (_view != null)
-            {
-                Context.Parent.Tell(new ShowView(_view));
-            }
-            else
+            if (_view == null)
             {
                 _view = new SettingsView();
                 _vm = new SettingsVm(Self);
                 _view.Vm = _vm;
-                Context.Parent.Tell(new ShowView(_view));
             }
 
-            if (_view == null)
-            {
-                _view = new SettingsView();
-            }
-            _vm = new SettingsVm(Self);
-            _view.Vm = _vm;
             Context.Parent.Tell(new ShowView(_view));
             ModelRoot.Connection.Tell(new ConnectMessage());
         }
