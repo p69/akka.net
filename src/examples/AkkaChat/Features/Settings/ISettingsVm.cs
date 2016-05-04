@@ -1,8 +1,12 @@
-﻿namespace AkkaChat.Features.Settings
+﻿using System.ComponentModel;
+
+namespace AkkaChat.Features.Settings
 {
-    public interface ISettingsVm
+    public interface ISettingsVm : INotifyPropertyChanged
     {
         string Title { get; }
-        void Connect(string userName);
+        string UserName { get; set; }
+        void Join();
+        bool IsOnline { get; }
     }
 }

@@ -54,21 +54,11 @@ namespace AkkaChat.Features.Settings
         public SettingsView()
         {
             this.InitializeComponent();
-            OnUserConnect = Observable.FromEventPattern<RoutedEventHandler, RoutedEventArgs>(
-                handler => ConnectButton.Click += handler,
-                handler => ConnectButton.Click -= handler)
-                .Select(_ => UserName.Text)
-                .Where(x => !string.IsNullOrWhiteSpace(x));
         }
-
-        public IObservable<string> OnUserConnect { get; }
     }
 
     public interface ISettingsView : IView
     {
         ISettingsVm Vm { get; }
-
-        [NotNull]
-        IObservable<string> OnUserConnect { get; } 
     }
 }

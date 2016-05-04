@@ -115,6 +115,7 @@
     <Compile Include="Bootstrapping\AppRoot.cs" />
     <Compile Include="ActorModel\Messages\SendTextMessage.cs" />
     <Compile Include="ActorModel\Messages\StartAppMessage.cs" />
+    <Compile Include="Features\Settings\Messages\JoinChatMessage.cs" />
     <Compile Include="Features\Settings\SettingsContoller.cs" />
     <Compile Include="Features\Settings\DesignSettingsVm.cs" />
     <Compile Include="Features\Settings\ISettingsVm.cs" />

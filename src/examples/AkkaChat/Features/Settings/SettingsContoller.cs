@@ -1,26 +1,42 @@
-﻿using System;
-using Akka.Actor;
+﻿using Akka.Actor;
 using AkkaChat.Features.Common.Messages.Navigation;
+using AkkaChat.Features.Settings.Messages;
+using AkkaChat.Model;
 using AkkaChat.Model.Connection.Messages;
-using JetBrains.Annotations;
+using AkkaChat.Model.Connection.Messages.ServerActions;
+using AkkaChat.Model.Dto;
 
 namespace AkkaChat.Features.Settings
 {
     public class SettingsContoller : ReceiveActor
     {
-        private readonly Props _connectionActorProps;
-        private IActorRef _connectionActor;
         private SettingsView _view;
-        private ISettingsVm _vm;
-        private IDisposable _viewActionsSub;
+        private SettingsVm _vm;
 
-        public SettingsContoller([NotNull] Props connectionActorProps)
+        public SettingsContoller()
         {
-            _connectionActorProps = connectionActorProps;
+            ModelRoot.System.EventStream.Subscribe(Self, typeof(ConnectionChangedMessage));
+            Become(Offline);
+        }
+
+        private void Offline()
+        {
             Receive<OnNavigatedTo>(_ => OnNavigated());
             Receive<ConnectionChangedMessage>(msg => OnConnectionChanged(msg));
         }
 
+        private void Online()
+        {
+            Receive<OnNavigatedTo>(_ => OnNavigated());
+            Receive<ConnectionChangedMessage>(msg => OnConnectionChanged(msg));
+            Receive<JoinChatMessage>(msg => JoinChat(msg));
+            Receive<JoinResult>(
+                msg =>
+                {
+                    var error = msg.Error;
+                    var isOk = msg.IsOk;
+                });
+        }
         private void OnNavigated()
         {
             if (_view != null)
@@ -29,12 +45,8 @@ namespace AkkaChat.Features.Settings
             }
             else
             {
-                _connectionActor = Context.ActorOf(_connectionActorProps, "connection");
-                _connectionActor.Tell(new SubscribeToConnectionChanged(Context.Self));
-
                 _view = new SettingsView();
-                _viewActionsSub = _view.OnUserConnect.Subscribe(ConnectUser);
-                _vm = new SettingsVm();
+                _vm = new SettingsVm(Self);
                 _view.Vm = _vm;
                 Context.Parent.Tell(new ShowView(_view));
             }
@@ -43,22 +55,25 @@ namespace AkkaChat.Features.Settings
             {
                 _view = new SettingsView();
             }
-            _vm = new SettingsVm();
+            _vm = new SettingsVm(Self);
             _view.Vm = _vm;
             Context.Parent.Tell(new ShowView(_view));
+            ModelRoot.Connection.Tell(new ConnectMessage());
         }
 
-        private void ConnectUser([NotNull] string userName)
+        private void JoinChat(JoinChatMessage msg)
         {
-            var message = new ConnectMessage(userName);
-            _connectionActor.Tell(message);
+            ModelRoot.Connection.Tell(new JoinChatActionMessage(msg.UserName));
         }
 
         private void OnConnectionChanged(ConnectionChangedMessage msg)
         {
-            var status = msg.Status;
-            var user = msg.ConnectedUser;
-            var error = msg.ConnectionError;
+            var isConnected = msg.Status == ConectionStatus.Connected;
+            _vm.IsOnline = isConnected;
+            if (isConnected)
+            {
+                Become(Online);
+            }
         }
     }
 }

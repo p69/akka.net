@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using Akka.Actor;
+using AkkaChat.Model.Common;
 using AkkaChat.Model.Connection.Messages;
 using AkkaChat.Model.Connection.Messages.ServerActions;
 using AkkaChat.Model.Dto;
@@ -13,14 +13,10 @@ namespace AkkaChat.Model.Connection
     {
         [NotNull]
         private readonly IConnectionService _connectionService;
-        [NotNull]
-        private readonly HashSet<IActorRef> _subscribers;
 
         public ServerConnectionActor()
         {
             _connectionService = new ChatServerClient(Self);
-            _subscribers = new HashSet<IActorRef>();
-            Receive<SubscribeToConnectionChanged>(msg => AddSubscriber(msg.Subscriber));
             Become(Disconnected);
         }
 
@@ -29,20 +25,8 @@ namespace AkkaChat.Model.Connection
             base.PostStop();
             _connectionService.Dispose();
         }
-
-        private void AddSubscriber(IActorRef subscriber)
-        {
-            if (_subscribers.Contains(subscriber)) return;
-            _subscribers.Add(subscriber);
-        }
-
         private void OnIsConnectedChanged(ConnectionChangedMessage msg)
         {
-            foreach (var subscriber in _subscribers)
-            {
-                subscriber.Tell(msg);
-            }
-
             switch (msg.Status)
             {
                 case ConectionStatus.Disconnected:
@@ -60,11 +44,13 @@ namespace AkkaChat.Model.Connection
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+
+            ModelRoot.System.EventStream.Publish(msg);
         }
 
         private void Disconnected()
         {
-            Receive<ConnectMessage>(msg => DoConnect(msg.UserName));
+            Receive<ConnectMessage>(msg => DoConnect());
         }
 
         private void Connecting()
@@ -83,7 +69,7 @@ namespace AkkaChat.Model.Connection
             _connectionService.Invoke<JoinResult, string>("Login", msg.UserName).PipeTo(Sender);
         }
 
-        private void DoConnect(string userName)
+        private void DoConnect()
         {
             Become(Connecting);
             var self = Self;

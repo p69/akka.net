@@ -13,8 +13,8 @@
         VerticalAlignment="Stretch"
         Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock
             Margin="0,20,0,0"
@@ -23,21 +23,29 @@
             Foreground="Black"
             FontSize="24"
             Text="{x:Bind Vm.Title, Mode=OneWay}" />
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,20,0,0" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBox       
+        <StackPanel
+            Grid.Row="1"
+            Margin="0,20,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Orientation="Horizontal">
+            <TextBox
                 x:Name="UserName"
-            VerticalAlignment="Center"
-            Foreground="DarkSlateGray"
-            FontSize="16"            />
+                VerticalAlignment="Center"
+                Foreground="DarkSlateGray"
+                FontSize="16"
+                Text="{x:Bind Vm.UserName, Mode=TwoWay}" />
             <Button
-            x:Name="ConnectButton"            
-            Width="200"
-            Height="50"
-            Margin="20,0,0,0"
-            HorizontalAlignment="Center">
-                Connect
+                x:Name="ConnectButton"
+                Width="200"
+                Height="50"
+                Margin="20,0,0,0"
+                HorizontalAlignment="Center"
+                Click="{x:Bind Vm.Join}"
+                IsEnabled="{x:Bind Vm.IsOnline, Mode=OneWay}">
+                Join
             </Button>
         </StackPanel>
-        
+
     </Grid>
 </settings:SettingsViewBase>
