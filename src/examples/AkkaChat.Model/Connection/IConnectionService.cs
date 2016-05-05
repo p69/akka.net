@@ -11,6 +11,9 @@ namespace AkkaChat.Model.Connection
         Task<ConnectionChangedMessage> Connect();
 
         [NotNull]
-        Task<TResult> Invoke<TResult, TArg>(string actionName, TArg arg);
+        Task<TResult> Invoke<TResult, TArg>(string actionName, params TArg[] args);
+
+        [NotNull]
+        Task Invoke<TArg>(string actionName, params TArg[] args);
     }
 }

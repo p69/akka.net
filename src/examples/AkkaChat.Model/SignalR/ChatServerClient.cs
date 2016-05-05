@@ -45,10 +45,15 @@ namespace AkkaChat.Model.SignalR
             }
         }
 
-        public async Task<TResult> Invoke<TResult, TArg>(string actionName, TArg arg)
+        public async Task<TResult> Invoke<TResult, TArg>(string actionName, params TArg[] args)
         {
-            var result = await _proxy.Invoke<TResult>(actionName, arg);
+            var result = await _proxy.Invoke<TResult>(actionName, args);
             return result;
+        }
+
+        public Task Invoke<TArg>(string actionName, params TArg[] args)
+        {
+            return _proxy.Invoke(actionName, args);
         }
 
         private void Init()

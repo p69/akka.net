@@ -40,7 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActorPaths.cs" />
-    <Compile Include="Chat\User\UserActor.cs" />
+    <Compile Include="Chat\ChatActor.cs" />
+    <Compile Include="Chat\Messages\LoginToChatRoomMessage.cs" />
+    <Compile Include="Chat\Messages\SendTextMessage.cs" />
     <Compile Include="Common\ActorMetaData.cs" />
     <Compile Include="Common\ActorSelectionHelper.cs" />
     <Compile Include="Connection\IConnectionService.cs" />
@@ -49,15 +51,14 @@
     <Compile Include="Connection\Messages\ServerActions\ActionType.cs" />
     <Compile Include="Connection\Messages\ServerActions\IServerAction.cs" />
     <Compile Include="Connection\Messages\ServerActions\JoinChatActionMessage.cs" />
+    <Compile Include="Connection\Messages\ServerActions\SendTextActionMessage.cs" />
     <Compile Include="Connection\ServerConnectionActor.cs" />
     <Compile Include="Dto\JoinResult.cs" />
     <Compile Include="ModelRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\ChatServerClient.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Chat\User\Messages\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\core\Akka\Akka.Portable.csproj">
       <Project>{41567ee6-c4d8-49d5-a423-c7201b206777}</Project>

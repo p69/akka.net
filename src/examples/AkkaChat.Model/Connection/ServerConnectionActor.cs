@@ -61,12 +61,10 @@ namespace AkkaChat.Model.Connection
         private void Connected()
         {
             Receive<ConnectionChangedMessage>(msg => OnIsConnectedChanged(msg));
-            Receive<JoinChatActionMessage>(msg => JoinChat(msg));
-        }
-
-        private void JoinChat(JoinChatActionMessage msg)
-        {
-            _connectionService.Invoke<JoinResult, string>("Login", msg.UserName).PipeTo(Sender);
+            Receive<JoinChatActionMessage>(
+                msg => _connectionService.Invoke<JoinResult, string>("Login", msg.UserName).PipeTo(Sender));
+            Receive<SendTextActionMessage>(
+                msg => _connectionService.Invoke("SendMessage", msg.UserName, msg.Text).PipeTo(Sender));
         }
 
         private void DoConnect()
